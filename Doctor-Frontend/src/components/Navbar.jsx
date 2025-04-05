@@ -11,7 +11,10 @@ export default function Navbar() {
 
   return (
     <div className='flex items-center justify-between text-sm py-4 mb-5 border-b border-b-gray-400'>
-      <img className='w-44 cursor-pointer' src={assets.logo} alt="" />
+     <div className='flex items-center justify-around cursor-pointer'>
+     <img className='w-20 cursor-pointer rounded-md' src={assets.doctorhall} alt="" />
+     <p className='text-primary font-extrabold text-3xl'>DoctorHall</p>
+     </div>
       <ul className='hidden md:flex items-start gap-5 font-medium'>
         <NavLink to='/'>
             <li className='py-1'>HOME</li>
