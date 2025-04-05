@@ -11,7 +11,7 @@ export default function Navbar() {
 
   return (
     <div className='flex items-center justify-between text-sm py-4 mb-5 border-b border-b-gray-400'>
-     <div className='flex items-center justify-around cursor-pointer'>
+     <div onClick={()=>{navigate('/')}} className='flex items-center justify-around cursor-pointer'>
      <img className='w-20 cursor-pointer rounded-md' src={assets.doctorhall} alt="" />
      <p className='text-primary font-extrabold text-3xl'>DoctorHall</p>
      </div>

@@ -298,4 +298,47 @@ export const doctors = [
             line2: 'Circle, Ring Road, London'
         }
     },
+    {
+        _id: 'doc16',
+        name: 'Dr. Ethan Carter',
+        image: doc12,
+        speciality: 'Gastroenterologist',
+        degree: 'MBBS, MD (Gastroenterology)',
+        experience: '5 Years',
+        about: 'Dr. Carter is a renowned gastroenterologist specializing in digestive health and treating disorders such as acid reflux, IBS, and liver diseases. He provides expert care with a focus on prevention and effective treatment.',
+        fees: 50,
+        address: {
+          line1: '12A Green Street',
+          line2: 'Heathrow, London'
+        }
+      },
+      {
+        _id: 'doc17',
+        name: 'Dr. Sophia Bennett',
+        image: doc3,
+        speciality: 'Gastroenterologist',
+        degree: 'MBBS, DM (Gastroenterology)',
+        experience: '8 Years',
+        about: 'Dr. Bennett has extensive experience in diagnosing and treating gastrointestinal conditions. She emphasizes a personalized approach to manage conditions like Crohn\'s disease, ulcerative colitis, and chronic gastritis.',
+        fees: 60,
+        address: {
+          line1: '221B Baker Street',
+          line2: 'Westminster, London'
+        }
+      },
+      {
+        _id: 'doc18',
+        name: 'Dr. Liam Anderson',
+        image: doc6,
+        speciality: 'Gastroenterologist',
+        degree: 'MBBS, MS (Gastroenterology)',
+        experience: '6 Years',
+        about: 'Dr. Anderson specializes in treating digestive disorders, including liver diseases, stomach ulcers, and inflammatory bowel diseases. He offers comprehensive care with a focus on effective treatments and lifestyle modifications.',
+        fees: 55,
+        address: {
+          line1: '7 King’s Avenue',
+          line2: 'Camden Town, London'
+        }
+      }
+         
 ]
