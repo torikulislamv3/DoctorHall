@@ -8,7 +8,11 @@ export default function Footer() {
        <div className='flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14 my-10 mt-40 text-sm'>
             {/* -----Left side----- */}
             <div>
-                <img className='mb-5 w-40' src={assets.logo} alt="" />
+                {/* <img className='mb-5 w-40' src={assets.logo} alt="" /> */}
+                <div className='flex items-center gap-2 cursor-pointer'>
+                     <img className='w-20 cursor-pointer rounded-md' src={assets.doctorhall} alt="" />
+                     <p className='text-primary font-extrabold text-3xl'>DoctorHall</p>
+                     </div>
                 <p className='w-full md:w-2/3 text-gray-600 leading-6'>
                 Discover trusted healthcare professionals at your fingertips. Our platform connects you with top-rated doctors for hassle-free appointments, expert advice, and personalized care. Prioritize your health today and experience seamless medical support from the comfort of your home.
                 </p>
