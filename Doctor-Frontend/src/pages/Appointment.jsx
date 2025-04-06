@@ -196,7 +196,7 @@ export default function Appointment() {
 
     // Debugging docSlots
     useEffect(() => {
-        console.log(docSlots)
+        // console.log(docSlots)
     }, [docSlots])
 
     return docInfo && (
