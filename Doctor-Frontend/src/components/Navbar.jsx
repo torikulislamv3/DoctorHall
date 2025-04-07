@@ -46,6 +46,24 @@ export default function Navbar() {
             </div>
         </div>
         :<button onClick={()=>navigate('/login')} className='bg-primary text-white px-8 py-3 rounded-full font-light hidden md:block'>Create account</button>}
+        <img onClick={()=>setShowMenu(true)} className='w-6 md:hidden' src={assets.menu_icon} alt="" />
+        {/* -----for mobile device------ */}
+        <div className={`${showMenu ? 'fixed w-full' : 'h-0 w-0'} md:hidden right-0 top-0 bottom-0 z-20 overflow-hidden bg-white transition-all`}>
+          <div className='flex items-center justify-between px-5 py-6'>
+            {/* <img src={assets.logo} alt="" /> */}
+            <div className='flex items-center justify-around cursor-pointer'>
+     <img className='w-20 cursor-pointer rounded-md' src={assets.doctorhall} alt="" />
+     <p className='text-primary font-extrabold text-3xl'>DoctorHall</p>
+     </div>
+            <img className='w-7' onClick={()=>setShowMenu(false)} src={assets.cross_icon} alt="" />
+          </div>
+          <ul className='flex flex-col items-center gap-2 mt-5 px-5 text-xl font-medium'>
+            <NavLink to='/' onClick={()=>setShowMenu(false)}><p  className='px-4 py-2 inline-block rounded'>HOME</p></NavLink>
+            <NavLink to='/doctors' onClick={()=>setShowMenu(false)}><p  className='px-4 py-2 inline-block rounded'>ALL DOCTORS</p></NavLink>
+            <NavLink to='/about' onClick={()=>setShowMenu(false)}><p  className='px-4 py-2 inline-block rounded'>ABOUT</p></NavLink>
+            <NavLink to='/contact' onClick={()=>setShowMenu(false)}><p  className='px-4 py-2 inline-block rounded'>CONTACT</p></NavLink>
+          </ul>
+        </div>
       </div>
     </div>
   )
