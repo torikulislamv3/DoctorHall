@@ -20,7 +20,7 @@ app.use('/api/admin',adminRouter)
 
 
 app.get('/', (req, res) => {
-    res.send('API WORKING')
+    res.send('API WORKING FOR DoctorHall')
 })
 
 app.listen(port, () => console.log('Server is running on :', port))
