@@ -157,4 +157,3 @@ const Select = ({ label, value, onChange, options }) => (
 );
 
 export default AddDoctor;
-// none

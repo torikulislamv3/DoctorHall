@@ -77,25 +77,6 @@ const addDoctor = async (req, res) => {
 
 // API FOR ADMIN LOGIN
 
-// const loginAdmin = async (req, res) => {
-//   try {
-
-//     const { email, password } = req.body;
-
-//     if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
-
-//         const token = jwt.sign(email+password,process.env.JWT_SECRET)
-//         res.json({success:true, token})
-
-//     } else {
-//       res.json({success:false, message: "Invalid Credentials"})
-//     }
-//   } catch (error) {
-//     console.log("Admin Login Error:", error.message)
-//     res.json({ success: false, message: error.message })
-//   }
-// }
-
 const loginAdmin = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -107,7 +88,7 @@ const loginAdmin = async (req, res) => {
       const payload = {
         email: email, // Or you could add other fields like user ID if necessary
       };
-      
+
       const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }); // Set expiration for 1 hour
 
       res.json({ success: true, token });  // Send token as response
@@ -121,5 +102,21 @@ const loginAdmin = async (req, res) => {
   }
 };
 
+// API to get all doctors list for admin panel
 
-export { addDoctor, loginAdmin };
+const allDoctors = async (req, res) => {
+
+  try {
+
+    const doctors = await doctorModel.find({}).select('-password')
+    res.json({ success: true, doctors })
+
+  } catch (error) {
+    console.log("Admin Login Error:", error.message);
+    res.json({ success: false, message: error.message });
+  }
+
+}
+
+
+export { addDoctor, loginAdmin, allDoctors };
