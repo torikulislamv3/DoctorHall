@@ -1,4 +1,3 @@
-
 import React, { useContext, useState } from 'react';
 import { assets } from '../../assets/assets';
 import { AdminContext } from '../../context/AdminContext';
@@ -18,13 +17,19 @@ const AddDoctor = () => {
   const [address1, setAddress1] = useState('');
   const [address2, setAddress2] = useState('');
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+
   const { backendUrl, aToken } = useContext(AdminContext);
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
+    setIsSubmitting(true);
+    setModalMessage("Adding doctor...");
 
     try {
       if (!docImg) {
+        setIsSubmitting(false);
         return toast.error('Please select a profile picture');
       }
 
@@ -32,7 +37,7 @@ const AddDoctor = () => {
       formData.append('image', docImg);
       formData.append('name', name);
       formData.append('email', email);
-      formData.append('password', password); 
+      formData.append('password', password);
       formData.append('experience', experience);
       formData.append('fees', Number(fees));
       formData.append('about', about);
@@ -50,14 +55,32 @@ const AddDoctor = () => {
         }
       );
 
+      setIsSubmitting(false);
+      setModalMessage(data.message);
+
       if (data.success) {
         toast.success(data.message);
+
+        // ✅ Clear all fields
+        setDocImg(false);
+        setName('');
+        setEmail('');
+        setPassword('');
+        setExperience('1 Year');
+        setFees('');
+        setAbout('');
+        setSpeciality('General physician');
+        setDegree('');
+        setAddress1('');
+        setAddress2('');
       } else {
         toast.error(data.message);
       }
 
     } catch (error) {
-      console.error("🚨 Error:", error?.response?.data || error.message);
+      setIsSubmitting(false);
+      const errMsg = error?.response?.data?.message || error.message;
+      setModalMessage(errMsg);
       toast.error("Something went wrong. Please try again.");
     }
   };
@@ -69,7 +92,7 @@ const AddDoctor = () => {
 
         <div className='flex items-center gap-4 mb-8 text-gray-500'>
           <label htmlFor="doc-img">
-            <img className='w-16 bg-gray-100 rounded-full cursor-pointer' src={docImg ? URL.createObjectURL(docImg) : assets.upload_area} alt="" />
+            <img className='w-16 h-16 object-cover bg-gray-100 rounded-full cursor-pointer' src={docImg ? URL.createObjectURL(docImg) : assets.upload_area} alt="" />
           </label>
           <input onChange={(e) => setDocImg(e.target.files[0])} type="file" id="doc-img" hidden />
           <p>Upload doctor <br /> picture</p>
@@ -101,6 +124,18 @@ const AddDoctor = () => {
 
         <button type='submit' className='bg-primary px-10 py-3 mt-4 text-white rounded-full'>Add Doctor</button>
       </div>
+
+      {/* Modal with loading and message */}
+      {isSubmitting && (
+        <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50'>
+          <div className='bg-white p-8 rounded-lg text-center'>
+            <div className='flex justify-center mb-4'>
+              <div className='w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin'></div>
+            </div>
+            <p className='text-xl font-medium'>{modalMessage}</p>
+          </div>
+        </div>
+      )}
     </form>
   );
 };
@@ -122,3 +157,4 @@ const Select = ({ label, value, onChange, options }) => (
 );
 
 export default AddDoctor;
+// none
