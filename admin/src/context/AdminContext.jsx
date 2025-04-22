@@ -28,7 +28,18 @@ const AdminContextProvider = (props) => {
 
     }
 
-    
+    const changeAvailablity = async ()=>{
+
+        try {
+            // --------
+            
+        } catch (error) {
+            toast.error(error.message)
+        }
+
+    }
+
+
     const value = {
         aToken,
         setAtoken,
