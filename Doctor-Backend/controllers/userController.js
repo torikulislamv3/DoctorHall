@@ -90,38 +90,6 @@ const getProfile = async (req, res) => {
     }
 }
 // API for update user Profile
-// const updateProfile = async (req, res) => {
-//     try {
-//       const { name, phone, address, dob, gender } = req.body;
-//       const userId = req.user.id; // Get userId from auth middleware
-//       const imageFile = req.file;
-  
-//       if (!name || !phone || !dob || !gender) {
-//         return res.json({ success: false, message: "Missing Details" });
-//       }
-  
-//       await userModel.findByIdAndUpdate(userId, {
-//         name,
-//         phone,
-//         address: JSON.parse(address),
-//         dob,
-//         gender,
-//       });
-  
-//       if (imageFile) {
-//         const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
-//           resource_type: "image",
-//         });
-//         const imageUrl = imageUpload.secure_url;
-//         await userModel.findByIdAndUpdate(userId, { image: imageUrl });
-//       }
-  
-//       res.json({ success: true, message: "Profile updated" });
-//     } catch (error) {
-//       console.log(error);
-//       return res.json({ success: false, message: error.message });
-//     }
-//   };
 
 const updateProfile = async (req, res) => {
     try {
