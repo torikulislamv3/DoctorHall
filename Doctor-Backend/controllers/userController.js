@@ -71,4 +71,22 @@ const loginUser = async(req, res) =>{
 
 }
 
-export {registerUser, loginUser}
+// API to get User Profile Data
+const getProfile = async (req, res) => {
+    try {
+        const userId = req.user.id;  // Using req.user.id instead of req.body.userId
+        const userData = await userModel.findById(userId).select('-password');
+
+        if (!userData) {
+            return res.json({ success: false, message: 'User not found' });
+        }
+
+        res.json({ success: true, userData });
+    } catch (error) {
+        console.log(error);
+        return res.json({ success: false, message: error.message });
+    }
+}
+
+
+export {registerUser, loginUser, getProfile}
