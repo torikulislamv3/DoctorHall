@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt'
 import userModel from '../models/userModel.js'
 import jwt from 'jsonwebtoken'
 import {v2 as cloudinary} from 'cloudinary'
+import streamifier from 'streamifier'
 
 // API  to register user
 
@@ -89,10 +90,43 @@ const getProfile = async (req, res) => {
     }
 }
 // API for update user Profile
+// const updateProfile = async (req, res) => {
+//     try {
+//       const { name, phone, address, dob, gender } = req.body;
+//       const userId = req.user.id; // Get userId from auth middleware
+//       const imageFile = req.file;
+  
+//       if (!name || !phone || !dob || !gender) {
+//         return res.json({ success: false, message: "Missing Details" });
+//       }
+  
+//       await userModel.findByIdAndUpdate(userId, {
+//         name,
+//         phone,
+//         address: JSON.parse(address),
+//         dob,
+//         gender,
+//       });
+  
+//       if (imageFile) {
+//         const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
+//           resource_type: "image",
+//         });
+//         const imageUrl = imageUpload.secure_url;
+//         await userModel.findByIdAndUpdate(userId, { image: imageUrl });
+//       }
+  
+//       res.json({ success: true, message: "Profile updated" });
+//     } catch (error) {
+//       console.log(error);
+//       return res.json({ success: false, message: error.message });
+//     }
+//   };
+
 const updateProfile = async (req, res) => {
     try {
+      const userId = req.user.id;
       const { name, phone, address, dob, gender } = req.body;
-      const userId = req.user.id; // Get userId from auth middleware
       const imageFile = req.file;
   
       if (!name || !phone || !dob || !gender) {
@@ -102,25 +136,38 @@ const updateProfile = async (req, res) => {
       await userModel.findByIdAndUpdate(userId, {
         name,
         phone,
-        address: JSON.parse(address),
+        address: typeof address === 'string' ? JSON.parse(address) : address,
         dob,
         gender,
       });
   
       if (imageFile) {
-        const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
-          resource_type: "image",
-        });
+        const streamUpload = (buffer) => {
+          return new Promise((resolve, reject) => {
+            const stream = cloudinary.uploader.upload_stream(
+              { resource_type: "image" },
+              (error, result) => {
+                if (result) resolve(result);
+                else reject(error);
+              }
+            );
+            streamifier.createReadStream(buffer).pipe(stream);
+          });
+        };
+  
+        const imageUpload = await streamUpload(imageFile.buffer);
         const imageUrl = imageUpload.secure_url;
+  
         await userModel.findByIdAndUpdate(userId, { image: imageUrl });
       }
   
-      res.json({ success: true, message: "Profile updated" });
+      res.json({ success: true, message: "profile updated" });
     } catch (error) {
       console.log(error);
       return res.json({ success: false, message: error.message });
     }
   };
+  
 
 
 export { registerUser, loginUser, getProfile, updateProfile }
