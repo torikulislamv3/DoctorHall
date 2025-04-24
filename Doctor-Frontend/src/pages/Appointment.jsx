@@ -193,7 +193,7 @@ export default function Appointment() {
     const [slotTime, setSlotTime] = useState('');
 
     // Define daysOfWeek array
-    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Satu'];
 
     const fetchDocInfo = async () => {
         const docInfo = doctors.find(doc => doc._id === docId);
@@ -223,10 +223,24 @@ export default function Appointment() {
             let timeSlots = [];
             while (currentDate < endTime) {
                 let formattedTime = currentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                timeSlots.push({
-                    datetime: new Date(currentDate),
-                    time: formattedTime
-                });
+
+                let day = currentDate.getDate()
+                let month = currentDate.getMonth()+1
+                let year = currentDate.getFullYear()
+
+                const slotDate = `${day}_${month}_${year}`
+                const slotTime = formattedTime
+
+                const isSlotAvailable = docInfo.slots_booked[slotDate] && docInfo.slots_booked[slotDate].includes(slotTime) ? false : true
+
+                if (isSlotAvailable) {
+                    timeSlots.push({
+                        datetime: new Date(currentDate),
+                        time: formattedTime
+                    });
+                }
+
+                
                 currentDate.setMinutes(currentDate.getMinutes() + 30);
             }
 

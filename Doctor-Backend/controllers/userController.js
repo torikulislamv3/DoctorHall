@@ -190,7 +190,41 @@ const updateProfile = async (req, res) => {
       return res.json({ success: false, message: error.message });
     }
   }
+
+  // API to get all appointment for user-> my-appointment page
+  // const listAppointment = async (req, res)=>{
+
+  //     try {
+        
+  //       const {userId} = req.user.id;
+  //       const appointments = await appointmentModel.find({userId})
+
+  //       res.json({success:true, appointments})
+
+  //     } catch (error) {
+  //       console.log(error);
+  //     return res.json({ success: false, message: error.message });
+  //     }
+
+  // }
+  const listAppointment = async (req, res) => {
+    try {
+      const userId = req.user.id;
+      console.log("User ID:", userId);
+      
+      const appointments = await appointmentModel.find({ userId });
+  
+      // Log the appointments fetched from the database
+      console.log("Appointments found:", appointments);
+      
+      res.json({ success: true, appointments });
+    } catch (error) {
+      console.log(error);
+      return res.json({ success: false, message: error.message });
+    }
+  };
+  
   
 
 
-export { registerUser, loginUser, getProfile, updateProfile, bookAppointment }
+export { registerUser, loginUser, getProfile, updateProfile, bookAppointment, listAppointment }
