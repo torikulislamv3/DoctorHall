@@ -8,6 +8,11 @@ export default function MyAppointments() {
   const { backendUrl, token } = useContext(AppContext)
 
   const [appointments, setAppointments] = useState([])
+  const months = ["","Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+  const slotDateFormate = (slotDate)=>{
+    const dateArray = slotDate.split('_')
+  return dateArray[0]+ " " + months[Number(dateArray[1])] + " " + dateArray[2]
+  }
 
   const getUserAppointments = async () => {
     try {
@@ -16,13 +21,13 @@ export default function MyAppointments() {
         toast.error("Missing token or backend URL");
         return;
       }
-  
+
       const { data } = await axios.get(backendUrl + '/api/user/appointments', {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-  
+
       if (data.success) {
         setAppointments(data.appointments.reverse());
         console.log(data.appointments);
@@ -40,11 +45,11 @@ export default function MyAppointments() {
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     if (token) {
       getUserAppointments()
     }
-  },[token])
+  }, [token])
 
   return (
     <div>
@@ -61,7 +66,7 @@ export default function MyAppointments() {
               <p className='text-zinc-700 font-medium mt-1'>Address:</p>
               <p className='text-xs'>{item.docData.address.line1}</p>
               <p className='text-xs'>{item.docData.address.line1}</p>
-              <p className='text-xm mt-1 '><span className='text-sm text-neutral-700 font-medium'>Date & Time:</span>{item.slotDate} | {item.slotTime}  </p>
+              <p className='text-xm mt-1 '><span className='text-sm text-neutral-700 font-medium'>Date & Time:</span>{slotDateFormate(item.slotDate)} | {item.slotTime}  </p>
             </div>
 
             <div></div>
