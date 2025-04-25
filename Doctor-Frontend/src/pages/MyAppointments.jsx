@@ -121,7 +121,7 @@ import axios from 'axios'
 
 export default function MyAppointments() {
 
-  const { backendUrl, token, getDoctorData } = useContext(AppContext)
+  const { backendUrl, token, getDoctorsData } = useContext(AppContext)
 
   const [appointments, setAppointments] = useState([])
   const months = ["","Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -174,7 +174,7 @@ export default function MyAppointments() {
       if (data.success) {
         toast.success(data.message)
         getUserAppointments()
-        getDoctorData()
+        getDoctorsData()
       } else {
         toast.error(data.message)
       }
@@ -203,6 +203,7 @@ export default function MyAppointments() {
       if (data.success) {
         // Show success toast
         toast.success("Thank you for the payment. Redirecting to payment gateway...");
+        
   
         // Redirect user to the payment gateway URL
         window.location.href = data.url; // Assuming `data.url` contains the gateway URL
@@ -247,7 +248,10 @@ export default function MyAppointments() {
             <div></div>
 
             <div className='flex flex-col gap-2 justify-end'>
-             {!item.cancelled && 
+            {
+              !item.cancelled && item.payment && <button className='sm:min-w-48 py-2 border rounded text-stone-500 bg-indigo-50'>Paid</button>
+            }
+             {!item.cancelled && !item.payment &&
                <button 
                  onClick={() => handlePayOnline(item._id, item.amount, item.userData)} 
                  className='text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-300'>
@@ -272,5 +276,4 @@ export default function MyAppointments() {
     </div>
   )
 }
-
 

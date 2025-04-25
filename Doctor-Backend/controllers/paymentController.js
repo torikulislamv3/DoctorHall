@@ -133,3 +133,4 @@ export const sslPaymentIPN = (req, res) => {
 
   res.status(200).json({ message: 'IPN Received', data: req.body });
 };
+
