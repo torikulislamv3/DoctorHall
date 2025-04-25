@@ -245,9 +245,9 @@ const updateProfile = async (req, res) => {
       return res.json({ success: false, message: error.message });
     }
   };
-  
 
   
+  //  API to payment for appointment using razorpay
   
 
 
