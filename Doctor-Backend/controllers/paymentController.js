@@ -56,7 +56,14 @@ export const sslPaymentSuccess = async (req, res) => {
   try {
     console.log('Payment Success Webhook Body:', req.body); // Log the whole request body
 
-    const { value_a, transaction_id } = req.body; // Extract appointmentId (value_a) and transaction_id from body
+    const { value_a, transaction_id, status } = req.body; // Extract appointmentId and transaction_id
+
+    if (status !== 'VALID') {
+      return res.status(400).json({
+        success: false,
+        message: '❌ Invalid payment response received.',
+      });
+    }
 
     // Check if value_a (appointmentId) is provided
     if (!value_a) {
@@ -74,8 +81,6 @@ export const sslPaymentSuccess = async (req, res) => {
         message: '❌ Appointment not found.',
       });
     }
-
-    console.log('Found Appointment:', appointment); // Check appointment details
 
     // Update the appointment with payment status and transaction info
     const updatedAppointment = await appointmentModel.findByIdAndUpdate(
@@ -107,16 +112,24 @@ export const sslPaymentSuccess = async (req, res) => {
 
 // 3️⃣ Fail Handler
 export const sslPaymentFail = (req, res) => {
+  const { status, message } = req.body; // Extract status or message from the failure response
   console.log('Payment Failed:', req.body);
   res.status(400).json({
     success: false,
-    message: '❌ Payment Failed',
+    message: `❌ Payment Failed: ${message || status}`,
   });
 };
 
 // 4️⃣ Optionally: IPN handler if needed later
 export const sslPaymentIPN = (req, res) => {
   console.log('IPN Received:', req.body);
+  const { status, transaction_id } = req.body;
+  
+  if (status === 'VALID') {
+    // Handle payment success from IPN (if necessary)
+  } else {
+    console.error('Invalid IPN message received:', req.body);
+  }
+
   res.status(200).json({ message: 'IPN Received', data: req.body });
 };
-
