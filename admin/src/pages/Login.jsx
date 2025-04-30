@@ -3,6 +3,7 @@ import { assets } from '../assets/assets'
 import { AdminContext } from '../context/AdminContext'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import {useNavigate} from 'react-router-dom'
 
 
 export default function Login() {
@@ -12,6 +13,7 @@ export default function Login() {
     const {setAtoken, backendUrl} = useContext(AdminContext)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const navigate = useNavigate()
 
     const onSubmitHandler = async (event) => {
         event.preventDefault()
@@ -24,7 +26,9 @@ export default function Login() {
 
                 if (data.success) {
                     localStorage.setItem('aToken', data.token)
-                        setAtoken(data.token)                    
+                        setAtoken(data.token)  
+                        navigate('/admin-dashboard')
+                                          
                 } else {
                     toast.error(data.message)
                 }
