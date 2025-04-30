@@ -73,18 +73,6 @@ const loginDoctor = async (req, res) =>{
 }
 
 // API to get appointment for doctor route
-// const appointmentsDoctor = async (req, res) => {
-//     try {
-        
-//         const {docId} = req.body;
-//         const appointments = await appointmentModel.find({docId})
-//         res.json({success:true, appointments})
-
-//     } catch (error) {
-//         console.error( error.message);
-//         return res.status(500).json({ success: false, message: 'Server error. Please try again later.' });
-//     }
-// }
 
 const appointmentsDoctor = async (req, res) => {
     try {
@@ -96,6 +84,49 @@ const appointmentsDoctor = async (req, res) => {
       res.status(500).json({ success: false, message: 'Server error. Please try again later.' });
     }
   }
+
+//   API to mark appointment completed for doctor panel
+
+const appointmentComplete = async (req, res) => {
+    try {
+      const { appointmentId } = req.body;
+      const docId = req.doctorId;
+  
+      const appointmentData = await appointmentModel.findById(appointmentId);
+  
+      if (appointmentData && appointmentData.docId.toString() === docId.toString()) {
+        await appointmentModel.findByIdAndUpdate(appointmentId, { isCompleted: true });
+        return res.json({ success: true, message: 'Appointment completed' });
+      } else {
+        return res.json({ success: false, message: 'Mark failed: unauthorized or invalid' });
+      }
+  
+    } catch (error) {
+      res.status(500).json({ success: false, message: 'Server error. Please try again later.' });
+    }
+  };
   
 
-export { changeAvailablity, doctorList, loginDoctor, appointmentsDoctor };
+  // API to cancel appointment for doctor panel 
+  const appointmentCancel = async (req, res) => {
+    try {
+      const { appointmentId } = req.body;
+      const docId = req.doctorId;
+  
+      const appointmentData = await appointmentModel.findById(appointmentId);
+  
+      if (appointmentData && appointmentData.docId.toString() === docId.toString()) {
+        await appointmentModel.findByIdAndUpdate(appointmentId, { cancelled: true });
+        return res.json({ success: true, message: 'Appointment cancelled' });
+      } else {
+        return res.json({ success: false, message: 'Canceling failed: unauthorized or invalid' });
+      }
+  
+    } catch (error) {
+      res.status(500).json({ success: false, message: 'Server error. Please try again later.' });
+    }
+  };
+  
+  
+
+export { changeAvailablity, doctorList, loginDoctor, appointmentsDoctor, appointmentCancel, appointmentComplete };
