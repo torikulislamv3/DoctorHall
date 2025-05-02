@@ -56,8 +56,6 @@ export const initiateSSLPayment = async (req, res) => {
 // 2️⃣ Success Handler
 export const sslPaymentSuccess = async (req, res) => {
   try {
-    console.log("Payment Success Webhook Body:", req.body); // Log the whole request body
-
     const { value_a, transaction_id, status } = req.body; // Extract appointmentId and transaction_id
 
     if (status !== "VALID") {
@@ -95,8 +93,6 @@ export const sslPaymentSuccess = async (req, res) => {
       { new: true } // To return the updated document
     );
 
-    console.log("Updated Appointment:", updatedAppointment); // Verify the updated appointment
-
     // Send success response
     res.status(200).json({
       success: true,
@@ -115,7 +111,7 @@ export const sslPaymentSuccess = async (req, res) => {
 // 3️⃣ Fail Handler
 export const sslPaymentFail = (req, res) => {
   const { status, message } = req.body; // Extract status or message from the failure response
-  console.log("Payment Failed:", req.body);
+
   res.status(400).json({
     success: false,
     message: `❌ Payment Failed: ${message || status}`,
@@ -124,7 +120,6 @@ export const sslPaymentFail = (req, res) => {
 
 // 4️⃣ Optionally: IPN handler if needed later
 export const sslPaymentIPN = (req, res) => {
-  console.log("IPN Received:", req.body);
   const { status, transaction_id } = req.body;
 
   if (status === "VALID") {

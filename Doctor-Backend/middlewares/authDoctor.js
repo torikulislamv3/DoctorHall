@@ -18,7 +18,6 @@ const authDoctor = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.log("User Auth Error:", error.message);
     res
       .status(401)
       .json({ success: false, message: "Unauthorized: " + error.message });

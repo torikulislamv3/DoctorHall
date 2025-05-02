@@ -20,7 +20,6 @@ const authAdmin = async (req, res, next) => {
 
     next(); // If everything is okay, proceed to the next middleware or route handler
   } catch (error) {
-    console.log("Admin Auth Error:", error.message);
     res.json({ success: false, message: error.message });
   }
 };

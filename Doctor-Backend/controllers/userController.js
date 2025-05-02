@@ -80,7 +80,6 @@ const getProfile = async (req, res) => {
 
     res.json({ success: true, userData });
   } catch (error) {
-    console.log(error);
     return res.json({ success: false, message: error.message });
   }
 };
@@ -126,7 +125,6 @@ const updateProfile = async (req, res) => {
 
     res.json({ success: true, message: "profile updated" });
   } catch (error) {
-    console.log(error);
     return res.json({ success: false, message: error.message });
   }
 };
@@ -178,7 +176,6 @@ const bookAppointment = async (req, res) => {
     await doctorModel.findByIdAndUpdate(docId, { slots_booked });
     res.json({ success: true, message: "Appointment booked confirm" });
   } catch (error) {
-    console.log(error);
     return res.json({ success: false, message: error.message });
   }
 };
@@ -189,12 +186,8 @@ const listAppointment = async (req, res) => {
 
     const appointments = await appointmentModel.find({ userId });
 
-    // Log the appointments fetched from the database
-    console.log("Appointments found:", appointments);
-
     res.json({ success: true, appointments });
   } catch (error) {
-    console.log(error);
     return res.json({ success: false, message: error.message });
   }
 };
@@ -235,7 +228,6 @@ const cancelAppointment = async (req, res) => {
 
     res.json({ success: true, message: "Appointment cancelled" });
   } catch (error) {
-    console.log(error);
     return res.json({ success: false, message: error.message });
   }
 };

@@ -45,12 +45,10 @@ export default function MyAppointments() {
 
       if (data.success) {
         setAppointments(data.appointments.reverse());
-        console.log(data.appointments);
       } else {
         toast.error("No appointments found");
       }
     } catch (error) {
-      console.log(error);
       if (error.response && error.response.data) {
         toast.error(error.response.data.message || error.message);
       } else {
@@ -79,7 +77,6 @@ export default function MyAppointments() {
         toast.error(data.message);
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.message);
     }
   };

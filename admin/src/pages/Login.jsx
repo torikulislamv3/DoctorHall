@@ -41,7 +41,6 @@ export default function Login() {
         if (data.success) {
           localStorage.setItem("dToken", data.token);
           setDToken(data.token);
-          console.log(data.token);
           // navigate('/admin-dashboard')
         } else {
           toast.error(data.message);

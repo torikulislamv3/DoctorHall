@@ -98,9 +98,7 @@ export default function Appointment() {
       } else {
         toast.error(data.message);
       }
-      console.log(slotDate);
     } catch (error) {
-      console.log(error);
       toast.error(error.message);
     }
   };
@@ -118,9 +116,7 @@ export default function Appointment() {
   }, [docInfo]);
 
   // Debugging docSlots
-  useEffect(() => {
-    // console.log(docSlots)
-  }, [docSlots]);
+  useEffect(() => {}, [docSlots]);
 
   return (
     docInfo && (

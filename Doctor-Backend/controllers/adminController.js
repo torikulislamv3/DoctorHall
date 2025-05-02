@@ -22,9 +22,6 @@ const addDoctor = async (req, res) => {
 
     const imageFile = req.file;
 
-    console.log("Request Body:", req.body);
-    console.log("File Data:", imageFile);
-
     if (
       !name ||
       !email ||
@@ -87,7 +84,6 @@ const addDoctor = async (req, res) => {
 
     res.json({ success: true, message: "Doctor Added" });
   } catch (error) {
-    console.log("Add Doctor Error:", error.message);
     res.json({ success: false, message: error.message });
   }
 };
@@ -117,7 +113,6 @@ const loginAdmin = async (req, res) => {
       res.json({ success: false, message: "Invalid Credentials" });
     }
   } catch (error) {
-    console.log("Admin Login Error:", error.message);
     res.json({ success: false, message: error.message });
   }
 };
@@ -129,7 +124,6 @@ const allDoctors = async (req, res) => {
     const doctors = await doctorModel.find({}).select("-password");
     res.json({ success: true, doctors });
   } catch (error) {
-    console.log("Admin Login Error:", error.message);
     res.json({ success: false, message: error.message });
   }
 };
@@ -140,7 +134,6 @@ const appointmentsAdmin = async (req, res) => {
     const appointments = await appointmentModel.find({});
     res.json({ success: true, appointments });
   } catch (error) {
-    console.log(error.message);
     res.json({ success: false, message: error.message });
   }
 };
@@ -171,7 +164,6 @@ const appointmentCancel = async (req, res) => {
 
     res.json({ success: true, message: "Appointment cancelled" });
   } catch (error) {
-    console.log(error);
     return res.json({ success: false, message: error.message });
   }
 };
@@ -191,7 +183,6 @@ const adminDashboard = async (req, res) => {
     };
     res.json({ success: true, dashData });
   } catch (error) {
-    console.log(error);
     return res.json({ success: false, message: error.message });
   }
 };
