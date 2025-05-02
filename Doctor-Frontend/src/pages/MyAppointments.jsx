@@ -99,9 +99,7 @@ export default function MyAppointments() {
         toast.success(
           "Thank you for the payment. Redirecting to payment gateway..."
         );
-
-        // Redirect user to the payment gateway URL
-        window.location.href = data.url; // Assuming `data.url` contains the gateway URL
+        window.location.href = data.url;
       } else {
         toast.error("❌ Payment initialization failed");
       }
