@@ -1,11 +1,11 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
 const authUser = async (req, res, next) => {
   try {
     const header = req.headers.authorization;
 
     if (!header || !header.startsWith("Bearer ")) {
-      return res.json({ success: false, message: 'Not Authorized. Try Again' });
+      return res.json({ success: false, message: "Not Authorized. Try Again" });
     }
 
     const token = header.split(" ")[1];
@@ -14,12 +14,11 @@ const authUser = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded; // ei line e user er decoded info rakhlam
 
-    next();  
-
+    next();
   } catch (error) {
     console.log("User Auth Error:", error.message);
     res.json({ success: false, message: error.message });
   }
-}
+};
 
 export default authUser;

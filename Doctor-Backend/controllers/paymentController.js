@@ -1,7 +1,7 @@
-import { v4 as uuidv4 } from 'uuid';
-import { config } from 'dotenv';
-import SSLCommerzPayment from 'sslcommerz-lts';
-import appointmentModel from '../models/appointmentModel.js';
+import { v4 as uuidv4 } from "uuid";
+import { config } from "dotenv";
+import SSLCommerzPayment from "sslcommerz-lts";
+import appointmentModel from "../models/appointmentModel.js";
 
 config(); // Load environment variables
 
@@ -13,22 +13,22 @@ export const initiateSSLPayment = async (req, res) => {
 
   const data = {
     total_amount: total_amount,
-    currency: 'BDT',
+    currency: "BDT",
     tran_id: transactionId,
-    success_url: 'http://localhost:4000/api/payment/success',
-    fail_url: 'http://localhost:4000/api/payment/fail',
-    cancel_url: 'http://localhost:5173/cancel',
-    ipn_url: 'http://localhost:4000/api/payment/ipn',
-    shipping_method: 'No',
-    product_name: 'Appointment Booking',
-    product_category: 'Medical',
-    product_profile: 'general',
+    success_url: "http://localhost:4000/api/payment/success",
+    fail_url: "http://localhost:4000/api/payment/fail",
+    cancel_url: "http://localhost:5173/cancel",
+    ipn_url: "http://localhost:4000/api/payment/ipn",
+    shipping_method: "No",
+    product_name: "Appointment Booking",
+    product_category: "Medical",
+    product_profile: "general",
     cus_name: user.name,
     cus_email: user.email,
-    cus_add1: user.address || 'N/A',
+    cus_add1: user.address || "N/A",
     cus_phone: user.phone,
-    cus_city: 'Dhaka',
-    cus_country: 'Bangladesh',
+    cus_city: "Dhaka",
+    cus_country: "Bangladesh",
     value_a: appointmentId,
   };
 
@@ -43,10 +43,12 @@ export const initiateSSLPayment = async (req, res) => {
     if (apiResponse?.GatewayPageURL) {
       res.json({ success: true, url: apiResponse.GatewayPageURL });
     } else {
-      res.status(500).json({ success: false, message: 'Payment initialization failed' });
+      res
+        .status(500)
+        .json({ success: false, message: "Payment initialization failed" });
     }
   } catch (error) {
-    console.error('Payment initiation error:', error);
+    console.error("Payment initiation error:", error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -54,14 +56,14 @@ export const initiateSSLPayment = async (req, res) => {
 // 2️⃣ Success Handler
 export const sslPaymentSuccess = async (req, res) => {
   try {
-    console.log('Payment Success Webhook Body:', req.body); // Log the whole request body
+    console.log("Payment Success Webhook Body:", req.body); // Log the whole request body
 
     const { value_a, transaction_id, status } = req.body; // Extract appointmentId and transaction_id
 
-    if (status !== 'VALID') {
+    if (status !== "VALID") {
       return res.status(400).json({
         success: false,
-        message: '❌ Invalid payment response received.',
+        message: "❌ Invalid payment response received.",
       });
     }
 
@@ -69,7 +71,7 @@ export const sslPaymentSuccess = async (req, res) => {
     if (!value_a) {
       return res.status(400).json({
         success: false,
-        message: '❌ Appointment ID missing in the request.',
+        message: "❌ Appointment ID missing in the request.",
       });
     }
 
@@ -78,7 +80,7 @@ export const sslPaymentSuccess = async (req, res) => {
     if (!appointment) {
       return res.status(404).json({
         success: false,
-        message: '❌ Appointment not found.',
+        message: "❌ Appointment not found.",
       });
     }
 
@@ -93,19 +95,19 @@ export const sslPaymentSuccess = async (req, res) => {
       { new: true } // To return the updated document
     );
 
-    console.log('Updated Appointment:', updatedAppointment); // Verify the updated appointment
+    console.log("Updated Appointment:", updatedAppointment); // Verify the updated appointment
 
     // Send success response
     res.status(200).json({
       success: true,
-      message: '✅ Appointment updated successfully',
+      message: "✅ Appointment updated successfully",
       data: updatedAppointment,
     });
   } catch (error) {
-    console.error('Error during payment success handling:', error);
+    console.error("Error during payment success handling:", error);
     res.status(500).json({
       success: false,
-      message: '❌ Server error while processing payment.',
+      message: "❌ Server error while processing payment.",
     });
   }
 };
@@ -113,7 +115,7 @@ export const sslPaymentSuccess = async (req, res) => {
 // 3️⃣ Fail Handler
 export const sslPaymentFail = (req, res) => {
   const { status, message } = req.body; // Extract status or message from the failure response
-  console.log('Payment Failed:', req.body);
+  console.log("Payment Failed:", req.body);
   res.status(400).json({
     success: false,
     message: `❌ Payment Failed: ${message || status}`,
@@ -122,15 +124,14 @@ export const sslPaymentFail = (req, res) => {
 
 // 4️⃣ Optionally: IPN handler if needed later
 export const sslPaymentIPN = (req, res) => {
-  console.log('IPN Received:', req.body);
+  console.log("IPN Received:", req.body);
   const { status, transaction_id } = req.body;
-  
-  if (status === 'VALID') {
+
+  if (status === "VALID") {
     // Handle payment success from IPN (if necessary)
   } else {
-    console.error('Invalid IPN message received:', req.body);
+    console.error("Invalid IPN message received:", req.body);
   }
 
-  res.status(200).json({ message: 'IPN Received', data: req.body });
+  res.status(200).json({ message: "IPN Received", data: req.body });
 };
-
