@@ -1,9 +1,11 @@
 import React from 'react'
 
-export default function DoctorProfile() {
+const DoctorProfile = () => {
   return (
     <div>
       
     </div>
   )
 }
+
+export default DoctorProfile
