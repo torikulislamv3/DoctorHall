@@ -15,7 +15,7 @@ export const initiateSSLPayment = async (req, res) => {
     total_amount: total_amount,
     currency: "BDT",
     tran_id: transactionId,
-    success_url: "https://doctorhall-doctor-backend.onrender.com/api/payment/success",
+    success_url: "http://localhost:4000/api/payment/success",
     fail_url: "http://localhost:4000/api/payment/fail",
     cancel_url: "http://localhost:5173/cancel",
     ipn_url: "http://localhost:4000/api/payment/ipn",
