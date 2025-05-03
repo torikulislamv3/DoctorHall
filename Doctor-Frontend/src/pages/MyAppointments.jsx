@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 
 export default function MyAppointments() {
-  const { backendUrl, token, getDoctorsData, userData } =
+  const { backendUrl, token, getDoctorsData } =
     useContext(AppContext);
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(false); // Loading state added
@@ -91,10 +91,10 @@ export default function MyAppointments() {
       const { data } = await axios.post(`${backendUrl}/api/payment/initiate`, {
         total_amount: totalAmount,
         user: {
-          name: userData.name || "John Doe",
-          email: userData.email || "johndoe@example.com",
-          address: userData.address || "123 Main St",
-          phone: userData.phone || "1234567890",
+          name: "John Doe",
+          email: "johndoe@example.com",
+          address: "123 Main St",
+          phone:"1234567890"
         },
         appointmentId: appointmentId,
       });
