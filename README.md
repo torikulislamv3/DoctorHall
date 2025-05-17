@@ -68,7 +68,7 @@ DoctorHall/
 - Cloudinary (Image hosting)
 - Razorpay / SSLCommerz (Payment gateways)
 
----
+-----
 
 ## ⚙️ Installation & Setup
 
